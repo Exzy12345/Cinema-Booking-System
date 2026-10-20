@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+
+{% block main_content %}
+
+
+<h2>All Movies</h2>
+
+
+{% for movie in movies %}
+<!-- Loop through the list of movies passed from flask -->
+
+<h3>{{ movie.title }}</h3>
+
+<p>Genre: {{ movie.genre }}</p>
+<p>Description: {{ movie.description }}</p>
+<p>Duration: {{ movie.duration }} minutes</p>
+<p>Rating: {{ movie.rating }}</p>
+
+
+<a href="{{ url_for('movie', movie_id=movie.id) }}">
+View Movie
+</a>
+<!-- Link to the movie details page for that specific movie -->
+
+<hr>
+
+{% else %}
+<!-- If the movies list is empty -->
+
+<p>No movies found.</p>
+
+{% endfor %}
+<!-- Ends the loop through movies -->
+
+{% endblock %}

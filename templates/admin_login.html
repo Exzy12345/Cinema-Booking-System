@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<h2>Admin Login</h2>
+
+<form method="POST">
+{{ form.hidden_tag() }}
+
+<p>
+{{ form.admin_id.label }}<br>
+
+
+{{ form.admin_id(size=30) }}
+</p>
+
+<p>
+
+    {% for e in form.admin_id.errors %}
+{{ e }}<br>
+{% endfor %}
+
+</p>
+
+<p>
+{{ form.password.label }}<br>
+
+
+{{ form.password(size=30) }}
+
+</p>
+
+{% for e in form.password.errors %}
+{{ e }}<br>
+
+
+{% endfor %}
+
+<p>{{ form.submit() }}</p>
+
+
+</form>
+
+
+
+<p>
+<a href="{{ url_for('index') }}" class="nav-button">Back to Homepage</a>
+</p>
+
+
+{% endblock %}

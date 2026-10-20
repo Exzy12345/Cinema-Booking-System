@@ -1,0 +1,124 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+
+<header>
+    <!-- https://emojipedia.org/clapper-board -->
+<h1>🎬ExStream Cinema🎬</h1>
+<hr>
+<h2> 📍Cork</h2>
+{% if 'user_id' in session %}
+
+<p>User id: {{ session['user_id'] }}</p>
+
+
+<p>
+<a href="{{ url_for('logout') }}" class="nav-button">Logout</a>
+</p>
+
+
+{% else %}
+
+<a href="{{ url_for('register') }}" class="nav-button">Register</a>
+<a href="{{ url_for('login') }}" class="nav-button">Login</a>
+
+
+{% endif %}
+
+</header>
+
+<nav>
+<a href="{{ url_for('index') }}">Home</a>
+<a href="{{ url_for('search_movies') }}">Search Movies</a>
+<a href="{{ url_for('filter_showtimes') }}">Filter by Date</a>
+
+
+{% if 'user_id' in session %}
+<a href="{{ url_for('my_bookings') }}">My Bookings</a>
+{% endif %}
+
+{% if 'admin' in session %}
+<a href="{{ url_for('admin_logout') }}">Admin Logout</a>
+<a href ="{{ url_for('admin_dashboard') }}">Admin Dashboard</a>
+{% else %}
+<a href="{{ url_for('admin_login') }}">Admin Login</a>
+{% endif %}
+
+</nav>
+
+<hr>
+
+<h2>
+Now Showing: {{ today.strftime("%A %d %B") }} - {{ next_week.strftime("%A %d %B") }}
+
+</h2>
+
+<section class="movies">
+
+{% for m in movies %}
+
+<article class="movie">
+
+<img src="{{ url_for('static', filename=m.poster_url) }}" alt="{{ m.title }} poster" class="poster">
+
+<h3>{{ m.title }}</h3>
+
+<p>{{ m.show_date.strftime("%A %d %B") }} at {{ m.show_time }}</p>
+
+<p>{{ m.available_seats }} seats available</p>
+
+{% if 'user_id' in session %}
+
+    {% if m.available_seats > 0 %}
+        <a href="{{ url_for('book', showtime_id=m.showtime_id) }}">Book tickets Now</a>
+    {% else %}
+        Sold Out
+    {% endif %}
+
+{% else %}
+
+<a href="{{ url_for('movie', movie_id=m.id) }}">Book tickets Now</a>
+
+{% endif %}
+
+</article>
+
+{% else %}
+
+<p>No movies showing in the next 7 days.</p>
+
+{% endfor %}
+
+</section>
+
+<footer>
+    <h3> More Information and Credits</h3>
+
+   <ul>
+    All poster images are brought to you by:
+    <a href="https://unsplash.com/@mproctor">Michael Proctor</a>,
+<a href="https://unsplash.com/@devinkaselnak">Devin Kaselnak</a>,
+<a href="https://unsplash.com/@valentinbvs">Valentin Beauvais</a>, 
+<a href="https://unsplash.com/@majesticlukas">Majestic Lukas</a>, 
+<a href="https://unsplash.com/@sebastiaanstam">Sebastiaan Stam</a>, 
+<a href="https://unsplash.com/@sammywilliams">Sander Sammy</a>, 
+<a href="https://unsplash.com/@we_the_royal">Duncan Kidd</a>, 
+<a href="https://unsplash.com/@jessicarockowitz">Jessica Rockowitz</a>,
+<a href="https://unsplash.com/@evertonvila">Everton Vila</a>, 
+<a href="https://unsplash.com/@mattdreamsneon">Matthieu Bühler</a>,
+<a href="https://unsplash.com/@pinadventuremap">Pin Adventure Map</a>, 
+<a href="https://unsplash.com/@nci">National Cancer Institute</a> and
+<a href="https://unsplash.com/@madhatterzone">Manja Vitolic</a> On
+<a href="https://unsplash.com/">Unsplash</a>
+   </ul>
+
+<ul>
+   <li> Name: Exauce Mongali </li>
+   <li> Student ID : 125348816 </li>
+   <li>Course: Computer Science 1st year 2025/26</li>
+    <li>Module: Web Development 2</li>
+</ul>
+</footer>
+
+{% endblock %}

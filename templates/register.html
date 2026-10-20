@@ -1,0 +1,40 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<h1>Register</h1>
+<form method="POST">
+{{ form.hidden_tag() }}
+<p>
+{{ form.user_id.label }}<br>
+
+{{ form.user_id() }}
+</p>
+
+<p>
+{{ form.password.label }}<br>
+
+
+{{ form.password() }}
+
+</p>
+
+<p>
+{{ form.password2.label }}<br>
+{{ form.password2() }}
+</p>
+
+<p>
+{{ form.submit() }}
+
+</p>
+
+</form>
+
+
+<p>
+    <a href="{{ url_for('index') }}" class="nav-button">Back to Homepage</a>
+    <a href="{{ url_for('login') }}" class="nav-button">Already have an account? Log in.</a>
+</p>
+
+{% endblock %}

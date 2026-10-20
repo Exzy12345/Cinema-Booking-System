@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<h2>Login</h2>
+
+
+<form method="POST">
+{{ form.hidden_tag() }}
+
+<p>
+{{ form.user_id.label }}<br>
+
+
+{{ form.user_id() }}<br>
+
+
+{% for e in form.user_id.errors %}
+<!-- Loops through validation errors for the user ID field -->
+
+{{ e }}<br>
+<!-- Displays each error message -->
+
+{% endfor %}
+</p>
+
+<p>
+{{ form.password.label }}<br>
+
+{{ form.password() }}<br>
+
+
+{% for e in form.password.errors %}
+<!-- Loops through validation errors for the password field -->
+
+{{ e }}<br>
+<!-- Displays each error message -->
+
+{% endfor %}
+</p>
+
+<p>
+{{ form.submit() }}
+<!-- Displays the login submit button -->
+</p>
+
+</form>
+
+<p>
+<a href="{{ url_for('register') }}">Create an account</a>
+</p>
+
+
+{% endblock %}

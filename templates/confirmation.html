@@ -1,0 +1,36 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<h2>Booking Confirmed</h2>
+
+<h3>{{ movie.title }}</h3>
+
+<p>Date: {{ show_date.strftime("%A %d %B") }}</p>
+
+
+<p>Time: {{ showtime.show_time }}</p>
+
+<h4>Ticket Breakdown</h4>
+
+{% if booking.adult_seats > 0 %}
+<p>Adults: {{ booking.adult_seats }}</p>
+{% endif %}
+
+{% if booking.child_seats > 0 %}
+<p>Children: {{ booking.child_seats }}</p>
+{% endif %}
+
+<p>Total Paid: €{{ booking.total }}</p>
+
+<p>Thank you for booking.</p>
+
+<p>
+    <a href="{{ url_for('my_bookings') }}" class="button">View My Bookings</a>
+</p>
+
+<p>
+    <a href="{{ url_for('index') }}" class="nav-button">Back to Homepage</a>
+</p>
+
+{% endblock %}

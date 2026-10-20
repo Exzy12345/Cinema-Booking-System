@@ -1,0 +1,93 @@
+{% extends "base.html" %}
+{% block main_content %}
+
+<h1>Admin Dashboard</h1>
+
+<p>
+    <a href="{{ url_for('admin_logout') }}" class="button">Logout</a>
+<a href="{{ url_for('index') }}" class="nav-button">Back to Movies</a>
+</p>
+
+<hr>
+
+<h2>Add New Movie</h2>
+<!-- 
+https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/input -->
+<form method="POST">
+    <input type="hidden" name="action" value="add_movie">
+    <p>Title: <input type="text" name="title" required></p>
+    <p>Genre: <input type="text" name="genre" required></p>
+    <p>Description: <input type="text" name="description"></p>
+    <p>Duration (mins): <input type="number" name="duration"></p>
+    <p>Rating: <input type="text" name="rating"></p>
+    <p>Price: <input type="number" step="0.01" name="price" required></p>
+    <p><button type="submit">Add Movie</button></p>
+</form>
+
+<hr>
+
+<h2>Add Showtime</h2>
+
+<!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Reference/Elements/datalist -->
+<form method="POST">
+    <input type="hidden" name="action" value="add_showtime">
+    <p>
+        Movie:
+        <select name="movie_id">
+            {% for movie in movies %}
+                <option value="{{ movie.id }}">{{ movie.title }}</option>
+            {% endfor %}
+        </select>
+    </p>
+    <p>Date: <input type="date" name="show_date" required></p>
+    <p>Time: <input type="time" name="show_time" required></p>
+    <p><button type="submit">Add Showtime</button></p>
+</form>
+
+<hr>
+
+<h2>All Movies</h2>
+<ul>
+    {% for movie in movies %}
+    <li>
+        {{ movie.title }} (€{{ movie.price }})
+        <form method="POST">
+            <input type="hidden" name="action" value="delete_movie">
+            <input type="hidden" name="movie_id" value="{{ movie.id }}">
+            <button type="submit">Delete</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+<hr>
+
+<h2>All Showtimes</h2>
+{% for show in showtimes %}
+    <h3>{{ show.title }}</h3>
+    <p>Current Date: {{ show.show_date.strftime("%A %d %B") }}</p>
+
+    <form method="POST">
+        <input type="hidden" name="action" value="edit_showtime">
+        <input type="hidden" name="showtime_id" value="{{ show.id }}">
+        <p>
+            Date:
+            <input type="date" name="show_date" value="{{ show.show_date.strftime('%Y-%m-%d') }}" required>
+        </p>
+        <p>
+            Time:
+            <input type="time" name="show_time" value="{{ show.show_time }}" required>
+        </p>
+        <p><button type="submit">Update</button></p>
+    </form>
+
+    <form method="POST">
+        <input type="hidden" name="action" value="delete_showtime">
+        <input type="hidden" name="showtime_id" value="{{ show.id }}">
+        <button type="submit">Delete Showtime</button>
+    </form>
+
+    <hr>
+{% endfor %}
+
+{% endblock %}

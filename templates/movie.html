@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+
+{% block main_content %}
+
+<section class="movie-page"
+style="--poster: url('{{ url_for('static', filename=movie.poster_url) }}');">
+
+<section class="movie-content">
+
+<h2>{{ movie.title }}</h2>
+
+<p>Genre: {{ movie.genre }}</p>
+<p>Duration: {{ movie.duration }} minutes</p>
+<p>Rating: {{ movie.rating }}</p>
+<p>Adult Price: €{{ movie.price }}</p>
+<p>{{ movie.description }}</p>
+
+
+{% if showtimes %}
+
+{% for show in showtimes %}
+
+<hr>
+
+<p>{{ show.show_date.strftime("%A %d %B") }} at {{ show.show_time }}</p>
+<p>{{ show.available_seats }} seats available</p>
+
+
+{% if show.available_seats > 0 %}
+    <a href="{{ url_for('book', showtime_id=show.id) }}" class="button">Book Tickets Now</a>
+{% else %}
+    Sold Out
+{% endif %}
+
+<a href="{{ url_for('index') }}" class="nav-button">Back to Homepage</a>
+
+{% endfor %}
+
+
+
+{% else %}
+
+<p>No showtimes available.</p>
+
+{% endif %}
+
+</section>
+
+</section>
+
+{% endblock %}

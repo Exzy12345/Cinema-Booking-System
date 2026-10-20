@@ -1,0 +1,52 @@
+
+{% extends "base.html" %}
+
+{% block main_content %}
+
+{% if is_editing %}
+    <h2>Edit Booking for {{ showtime.title }}</h2>
+{% else %}
+    <h2>Book Tickets for {{ showtime.title }}</h2>
+{% endif %}
+
+<section class="movie-page" style="--poster: url('{{ url_for('static', filename=showtime.poster_url) }}');">
+<section class ="booking-content">
+{% if showtime.description %}
+    <p>Description: {{ showtime.description }}</p>
+{% endif %}
+
+<p>Date: {{ show_date.strftime("%A %d %B") }}</p>
+<p>Time: {{ showtime.show_time }}</p>
+<p>Adult Price: €{{ showtime.price }}</p>
+<p>Child Price (Under 12): €{{ showtime.price / 2 }}</p>
+<p>Available Seats: {{ available_seats }}</p>
+<p><em>Note: Children must book with at least one adult.</em></p>
+
+<form method="POST">
+    {{ form.hidden_tag() }}
+    
+    <p>
+        {{ form.adult_seats.label }}<br>
+        {{ form.adult_seats(min=0, max=10) }}
+    </p>
+
+    <p>
+        {{ form.child_seats.label }}<br>
+        {{ form.child_seats(min=0, max=10) }}
+    </p>
+    
+    {% if is_editing %}
+        <p><button type="submit" class="nav-button">Update Booking</button></p>
+        <p><a href="{{ url_for('my_bookings') }}" class="nav-button">Cancel Edit</a></p>
+    {% else %}
+        <p>{{ form.submit(class="nav-button") }}</p>
+    {% endif %}
+</form>
+
+<p>
+<a href="{{ url_for('index') }}" class="nav-button">Back to Homepage</a>
+</p>
+</section>
+</section>
+
+{% endblock %}
